@@ -1,0 +1,19 @@
+{
+  "name": "rubiks_cube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VetalKamen/rubiks_cube.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VetalKamen/rubiks_cube/issues"
+  },
+  "homepage": "https://github.com/VetalKamen/rubiks_cube#readme"
+}
