@@ -1,20 +1,20 @@
 import Color from './color'
 
 class RubiksCubeStateStructure {
-  public frontSide: RubiksCubeCellStructure[];
-  public leftSide: RubiksCubeCellStructure[];
-  public rightSide: RubiksCubeCellStructure[];
-  public backSide: RubiksCubeCellStructure[];
-  public upSide: RubiksCubeCellStructure[];
-  public downSide: RubiksCubeCellStructure[];
+  public frontSide: Color[];
+  public leftSide: Color[];
+  public rightSide: Color[];
+  public backSide: Color[];
+  public upSide: Color[];
+  public downSide: Color[];
 
   constructor(
-    frontSide: [number, Color][],
-    leftSide: [number, Color][],
-    rightSide: [number, Color][],
-    backSide: [number, Color][],
-    upSide: [number, Color][],
-    downSide: [number, Color][],
+    frontSide: Color[],
+    leftSide: Color[],
+    rightSide: Color[],
+    backSide: Color[],
+    upSide: Color[],
+    downSide: Color[],
   ) {
     if (frontSide.length != 9) throw new Error('frontSide length is not 9')
     if (leftSide.length != 9) throw new Error('leftSide length is not 9')
@@ -23,31 +23,13 @@ class RubiksCubeStateStructure {
     if (upSide.length != 9) throw new Error('upSide length is not 9')
     if (downSide.length != 9) throw new Error('downSide length is not 9')
 
-    this.frontSide = this.setSide(frontSide)
-    this.leftSide = this.setSide(leftSide)
-    this.rightSide = this.setSide(rightSide)
-    this.backSide = this.setSide(backSide)
-    this.upSide = this.setSide(upSide)
-    this.downSide = this.setSide(downSide)
-  }
-
-  private setSide(side: [number, Color][]): RubiksCubeCellStructure[] {
-    return side.map((data: [number, Color]): RubiksCubeCellStructure => {
-      const [position, color] = data
-
-      return new RubiksCubeCellStructure(position, color)
-    })
+    this.frontSide = frontSide
+    this.leftSide = leftSide
+    this.rightSide = rightSide
+    this.backSide = backSide
+    this.upSide = upSide
+    this.downSide = downSide
   }
 }
 
-class RubiksCubeCellStructure {
-  public position: number;
-  public color: Color
-
-  constructor(position: number, color: Color) {
-    this.position = position
-    this.color = color
-  }
-}
-
-export {RubiksCubeStateStructure, RubiksCubeCellStructure}
+export {RubiksCubeStateStructure}
