@@ -20,6 +20,23 @@ class RubiksCube {
   public turnFrontBlockLeft(): void {
     this.blockState.turnFrontBlockLeft()
   }
+
+  public turnFrontBlockRight(): void {}
+
+  public turnLeftBlockLeft(): void {}
+  public turnLeftBlockRight(): void {}
+
+  public turnRightBlockLeft(): void {}
+  public turnRightBlockRight(): void {}
+
+  public turnUpBlockLeft(): void {}
+  public turnUpBlockRight(): void {}
+
+  public turnBottomBlockLeft(): void {}
+  public turnBottomBlockRight(): void {}
+
+  public turnBackBlockLeft(): void {}
+  public turnBackBlockRight(): void {}
 }
 
 export default RubiksCube

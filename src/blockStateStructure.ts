@@ -40,10 +40,6 @@ class BlockState {
     // this.frontSide[0].side = this.frontSide[2].vertical
     // this.frontSide[0].vertical = this.frontSide[2].side
 
-
-    
-    
-    
     // up => left
     // left => bottom
     // bottom => right
