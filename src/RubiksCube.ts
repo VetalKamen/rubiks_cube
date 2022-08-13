@@ -2,7 +2,7 @@ import {RubiksCubeStateStructure} from './RubiksCubeStateStructure'
 import {BlockState} from './blockStateStructure'
 
 class RubiksCube {
-  private state: RubiksCubeStateStructure
+  public readonly state: RubiksCubeStateStructure
   private blockState: BlockState
 
   constructor(state: RubiksCubeStateStructure) {
