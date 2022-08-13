@@ -5,7 +5,7 @@ class RubiksCubeStateStructure {
   public leftSide: Color[];
   public rightSide: Color[];
   public backSide: Color[];
-  public upSide: Color[];
+  public upSide: ReadonlyArray<Color>;
   public downSide: Color[];
 
   constructor(

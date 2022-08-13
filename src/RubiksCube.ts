@@ -17,26 +17,26 @@ class RubiksCube {
     console.log(this.blockState)
   }
 
-  public turnFrontBlockLeft(): void {
+  public turnFrontSideLeft(): void {
     this.blockState.turnFrontBlockLeft()
   }
 
-  public turnFrontBlockRight(): void {}
+  public turnFrontSideRight(): void {}
 
-  public turnLeftBlockLeft(): void {}
-  public turnLeftBlockRight(): void {}
+  public turnLeftSideAway(): void {}
+  public turnLeftSideTowards(): void {}
 
-  public turnRightBlockLeft(): void {}
-  public turnRightBlockRight(): void {}
+  public turnRightSideAway(): void {}
+  public turnRightSideTowards(): void {}
 
-  public turnUpBlockLeft(): void {}
-  public turnUpBlockRight(): void {}
+  public turnUpSideLeft(): void {}
+  public turnUpSideRight(): void {}
 
-  public turnBottomBlockLeft(): void {}
-  public turnBottomBlockRight(): void {}
+  public turnBottomSideLeft(): void {}
+  public turnBottomSideRight(): void {}
 
-  public turnBackBlockLeft(): void {}
-  public turnBackBlockRight(): void {}
+  public turnBackSideLeft(): void {}
+  public turnBackSideRight(): void {}
 }
 
 export default RubiksCube
