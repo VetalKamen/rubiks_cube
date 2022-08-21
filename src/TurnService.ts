@@ -1,12 +1,6 @@
 import Color from './color';
-import {RubiksCubeStateStructure} from './RubiksCubeStateStructure'
 
 class TurnService{
-  public readonly cube: RubiksCubeStateStructure
-
-  constructor(cubeStructure: RubiksCubeStateStructure) {
-  this.cube = cubeStructure;
-  }
 
   public getThreeColor(side: Color[], sideVals: number[]): any{
     return sideVals.map((val) => side[val])
@@ -45,7 +39,6 @@ class TurnService{
     this.setThreeColor(side, leftVals,downColors)
   }
 
-// side1-front, side2-right, side3-left, side4-back
   public edgeSwapLeft(side1: Color[], sideVol1: number[], side2: Color[], sideVol2: number[],
     side3: Color[], sideVol3: number[],side4: Color[], sideVol4: number[]){
     var color1 = this.getThreeColor(side1, sideVol1)
@@ -59,7 +52,6 @@ class TurnService{
     this.setThreeColor(side1, sideVol1,color3)
   }
 
-// side1-front, side2-right, side3-left, side4-back
   public edgeSwapRight(side1: Color[], sideVol1: number[], side2: Color[], sideVol2: number[],
     side3: Color[], sideVol3: number[],side4: Color[], sideVol4: number[]){
     var color1 = this.getThreeColor(side1, sideVol1)

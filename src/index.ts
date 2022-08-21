@@ -49,7 +49,7 @@ const state = new RubiksCubeStateStructure(
   downSide
 )
 
-const turnService = new TurnService(state)
+const turnService = new TurnService()
 const rubiksCube = new RubiksCube(state, turnService)
 const assembler = new RubiksCubeAssembler(rubiksCube)
 rubiksCube.Render()
