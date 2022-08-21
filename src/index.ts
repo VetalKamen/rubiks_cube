@@ -2,6 +2,7 @@ import RubiksCube from './RubiksCube'
 import {RubiksCubeStateStructure} from './RubiksCubeStateStructure'
 import Color from './color'
 import { RubiksCubeAssembler } from './RubicCubeAssembler'
+import TurnService from './TurnService'
 
 const frontSide: Color[] = [
   Color.Yellow, Color.White, Color.White,
@@ -10,7 +11,7 @@ const frontSide: Color[] = [
 ]
 
 const lefttSide: Color[] = [
-  Color.Blue, Color.Blue, Color.Yellow,
+  Color.Blue, Color.Blue, Color.Blue,
   Color.Blue, Color.Blue, Color.Blue,
   Color.Blue, Color.Blue, Color.Blue,
 ]
@@ -30,7 +31,7 @@ const backSide: Color[] = [
 const upSide: Color[] = [
   Color.Red, Color.Red, Color.Red,
   Color.Red, Color.Red, Color.Red,
-  Color.Yellow, Color.Red, Color.Red,
+  Color.Red, Color.Red, Color.Red,
 ]
 
 const downSide: Color[] = [
@@ -48,8 +49,11 @@ const state = new RubiksCubeStateStructure(
   downSide
 )
 
-const rubiksCube = new RubiksCube(state)
+const turnService = new TurnService(state)
+const rubiksCube = new RubiksCube(state, turnService)
 const assembler = new RubiksCubeAssembler(rubiksCube)
-
-assembler.Assemble();
+rubiksCube.Render()
+rubiksCube.turnFrontSideRight()
+rubiksCube.Render()
+// assembler.Assemble();
 
