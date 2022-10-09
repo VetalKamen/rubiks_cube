@@ -1,17 +1,17 @@
-import { suite, test } from '@testdeck/mocha'
+import {suite, test} from '@testdeck/mocha'
 import * as _chai from 'chai'
-import { expect } from 'chai'
-import TurnService from '../src/TurnService'
-import RubiksCube from "../src/RubiksCube";
-import { RubiksCubeStateStructure } from '../src/RubiksCubeStateStructure'
-import Color from "../src/color";
+import {expect} from 'chai'
+import RubikCubeEmulator from '../src/RubikCubeEmulator'
+import RubiksCube from '../src/RubiksCube'
+import Color from '../src/Color'
 
 _chai.should()
 _chai.expect
 
-@suite class RubiksCubeTest {
-    private service: RubiksCube
-    private state: RubiksCubeStateStructure
+@suite
+class RubiksCubeTest {
+    private rubicCubeEmulator: RubikCubeEmulator
+    private cube: RubiksCube
 
     before() {
         const frontSide: Color[] = [
@@ -50,7 +50,7 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        this.state = new RubiksCubeStateStructure(
+        this.cube = new RubiksCube(
             frontSide,
             leftSide,
             rightSide,
@@ -59,12 +59,11 @@ _chai.expect
             downSide
         )
 
-        this.service = new RubiksCube(this.state, new TurnService)
+        this.rubicCubeEmulator = new RubikCubeEmulator(this.cube)
     }
 
-    @test 'turnFrontBlockLeft' () {
-        this.service.turnFrontSideLeft()
-
+    @test 'turnFrontBlockLeft'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Yellow, Color.Orange, Color.White,
             Color.Green, Color.White, Color.Red,
@@ -101,21 +100,15 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnFrontSideLeft()
 
-        expect(expectState).to.be.eql(this.state)
+        // Expect
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnFrontSideRight' () {
-        this.service.turnFrontSideRight()
-
+    @test 'turnFrontSideRight'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Blue, Color.White, Color.Orange,
             Color.Red, Color.White, Color.Green,
@@ -152,21 +145,16 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnFrontSideRight()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnLeftSideAway' () {
-        this.service.turnLeftSideAway()
 
+    @test 'turnLeftSideAway'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Red, Color.Green, Color.Yellow,
             Color.Red, Color.White, Color.Orange,
@@ -203,21 +191,16 @@ _chai.expect
             Color.Blue, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnLeftSideAway()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnLeftSideTowards' () {
-        this.service.turnLeftSideToward()
 
+    @test 'turnLeftSideTowards'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Yellow, Color.Green, Color.Yellow,
             Color.Blue, Color.White, Color.Orange,
@@ -254,21 +237,15 @@ _chai.expect
             Color.Blue, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnLeftSideToward()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnRightSideAway' () {
-        this.service.turnRightSideAway()
-
+    @test 'turnRightSideAway'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Blue,
             Color.White, Color.White, Color.Orange,
@@ -305,21 +282,15 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnRightSideAway()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnRightSideTowards' () {
-        this.service.turnRightSideToward()
-
+    @test 'turnRightSideTowards'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Green,
             Color.White, Color.White, Color.Yellow,
@@ -356,21 +327,15 @@ _chai.expect
             Color.Orange, Color.White, Color.White,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnRightSideToward()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnUpSideLeft' () {
-        this.service.turnUpSideLeft()
-
+    @test 'turnUpSideLeft'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Blue, Color.Yellow,
             Color.White, Color.White, Color.Orange,
@@ -407,21 +372,15 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnUpSideLeft()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnUpSideRight' () {
-        this.service.turnUpSideRight()
-
+    @test 'turnUpSideRight'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Red, Color.Orange, Color.Green,
             Color.White, Color.White, Color.Orange,
@@ -458,21 +417,15 @@ _chai.expect
             Color.Orange, Color.White, Color.Red,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnUpSideRight()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnBottomSideLeft' () {
-        this.service.turnBottomSideLeft()
-
+    @test 'turnBottomSideLeft'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Yellow,
             Color.White, Color.White, Color.Orange,
@@ -509,21 +462,15 @@ _chai.expect
             Color.Red, Color.Red, Color.Orange,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnBottomSideLeft()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnBottomSideRight' () {
-        this.service.turnBottomSideRight()
-
+    @test 'turnBottomSideRight'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Yellow,
             Color.White, Color.White, Color.Orange,
@@ -560,21 +507,15 @@ _chai.expect
             Color.Red, Color.Orange, Color.Blue,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnBottomSideRight()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnBackSideLeft' () {
-        this.service.turnBackSideLeft()
-
+    @test 'turnBackSideLeft'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Yellow,
             Color.White, Color.White, Color.Orange,
@@ -611,21 +552,15 @@ _chai.expect
             Color.Red, Color.Green, Color.Green,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnBackSideLeft()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
     }
 
-    @test 'turnBackSideRight' () {
-        this.service.turnBackSideRight()
-
+    @test 'turnBackSideRight'() {
+        // Arrange
         const frontSide: Color[] = [
             Color.Orange, Color.Green, Color.Yellow,
             Color.White, Color.White, Color.Orange,
@@ -662,15 +597,26 @@ _chai.expect
             Color.Green, Color.Yellow, Color.Yellow,
         ]
 
-        const expectState = new RubiksCubeStateStructure(
-            frontSide,
-            leftSide,
-            rightSide,
-            backSide,
-            upSide,
-            downSide
-        )
+        // Act
+        this.rubicCubeEmulator.turnBackSideRight()
 
-        expect(expectState).to.be.eql(this.state)
+        // Assert
+        this.AssertCubeState(frontSide, leftSide, rightSide, backSide, upSide, downSide)
+    }
+
+    private AssertCubeState(
+        frontSide: Color[],
+        leftSide: Color[],
+        rightSide: Color[],
+        backSide: Color[],
+        upSide: Color[],
+        downSide: Color[]
+    ) {
+        expect(frontSide).to.be.eql(this.cube.frontSide)
+        expect(backSide).to.be.eql(this.cube.backSide)
+        expect(leftSide).to.be.eql(this.cube.leftSide)
+        expect(rightSide).to.be.eql(this.cube.rightSide)
+        expect(upSide).to.be.eql(this.cube.upSide)
+        expect(downSide).to.be.eql(this.cube.downSide)
     }
 }

@@ -1,286 +1,55 @@
-import { RubiksCubeStateStructure } from './RubiksCubeStateStructure'
-import TurnService from './TurnService'
+import Color from './Color'
 
 class RubiksCube {
-    public readonly state: RubiksCubeStateStructure
-    public readonly turnService: TurnService
-    public sideUpRowIndexes = [0, 1, 2]
-    public sideLeftRowIndexes = [0, 3, 6]
-    public sideDownRowIndexes = [6, 7, 8]
-    public sideRightRowIndexes = [2, 5, 8]
+    public readonly frontSide: Color[]
+    public readonly leftSide: Color[]
+    public readonly rightSide: Color[]
+    public readonly backSide: Color[]
+    public readonly upSide: Color[]
+    public readonly downSide: Color[]
 
-    constructor(state: RubiksCubeStateStructure, turnService: TurnService) {
-        this.state = state;
-        this.turnService = turnService;
+    constructor(
+        frontSide: Color[],
+        leftSide: Color[],
+        rightSide: Color[],
+        backSide: Color[],
+        upSide: Color[],
+        downSide: Color[]
+    ) {
+        if (frontSide.length != 9) throw new Error('frontSide length is not 9')
+        if (leftSide.length != 9) throw new Error('leftSide length is not 9')
+        if (rightSide.length != 9) throw new Error('rightSide length is not 9')
+        if (backSide.length != 9) throw new Error('backSide length is not 9')
+        if (upSide.length != 9) throw new Error('upSide length is not 9')
+        if (downSide.length != 9) throw new Error('downSide length is not 9')
 
-        // our logic about positioning
-        // translate state to block state
+        this.frontSide = frontSide
+        this.leftSide = leftSide
+        this.rightSide = rightSide
+        this.backSide = backSide
+        this.upSide = upSide
+        this.downSide = downSide
     }
 
-    public Render(): any {
-        console.log('FrontSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.frontSide[i * 3]}, ${this.state.frontSide[i * 3 + 1]}, ${this.state.frontSide[i * 3 + 2]}`)
-        }
-
-        console.log('DownSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.downSide[i * 3]}, ${this.state.downSide[i * 3 + 1]}, ${this.state.downSide[i * 3 + 2]}`)
-        }
-
-        console.log('RightSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.rightSide[i * 3]}, ${this.state.rightSide[i * 3 + 1]}, ${this.state.rightSide[i * 3 + 2]}`)
-        }
-
-        console.log('UpSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.upSide[i * 3]}, ${this.state.upSide[i * 3 + 1]}, ${this.state.upSide[i * 3 + 2]}`)
-        }
-
-        console.log('LeftSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.leftSide[i * 3]}, ${this.state.leftSide[i * 3 + 1]}, ${this.state.leftSide[i * 3 + 2]}`)
-        }
-
-        console.log('BackSide:')
-        for (let i = 0; i < 3; i++) {
-            console.log(`${this.state.backSide[i * 3]}, ${this.state.backSide[i * 3 + 1]}, ${this.state.backSide[i * 3 + 2]}`)
-        }
+    public Render(): void {
+        RubiksCube.RenderSide(this.frontSide, 'Front side')
+        RubiksCube.RenderSide(this.backSide, 'Back side')
+        RubiksCube.RenderSide(this.leftSide, 'Left side')
+        RubiksCube.RenderSide(this.rightSide, 'Right side')
+        RubiksCube.RenderSide(this.upSide, 'Up side')
+        RubiksCube.RenderSide(this.downSide, 'Down side')
 
         console.log('-----------------------------')
     }
 
-    public turnFrontSideLeft(): void {
-        this.turnService.edgeSwapLeft(
-            this.state.upSide,
-            this.sideDownRowIndexes,
-            this.state.leftSide,
-            this.sideRightRowIndexes,
-            this.state.rightSide,
-            this.sideLeftRowIndexes,
-            this.state.downSide,
-            this.sideUpRowIndexes
-        )
+    private static RenderSide(side: ReadonlyArray<Color>, title: string): void {
+        console.log(`${title}:`)
 
-        this.turnService.sideSwapLeft(
-            this.state.frontSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
+        for (let i = 0; i < 3; i++) {
+            console.log(`${side[i * 3]}, ${side[i * 3 + 1]}, ${side[i * 3 + 2]}`)
+        }
 
-    public turnFrontSideRight(): void {
-        this.turnService.edgeSwapRight(
-            this.state.downSide,
-            this.sideUpRowIndexes,
-            this.state.rightSide,
-            this.sideLeftRowIndexes,
-            this.state.leftSide,
-            this.sideRightRowIndexes,
-            this.state.upSide,
-            this.sideDownRowIndexes
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.frontSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnLeftSideAway(): void {
-        this.turnService.edgeSwapLeftAway(
-            this.state.upSide,
-            this.state.frontSide,
-            this.state.backSide,
-            this.state.downSide,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes,
-        )
-
-        this.turnService.sideSwapLeft(
-            this.state.leftSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnLeftSideToward(): void {
-        this.turnService.edgeSwapLeftToward(
-            this.state.upSide,
-            this.state.frontSide,
-            this.state.backSide,
-            this.state.downSide,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes,
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.leftSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnRightSideAway(): void {
-        this.turnService.edgeSwapRightAway(
-            this.state.upSide,
-            this.state.frontSide,
-            this.state.backSide,
-            this.state.downSide,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes,
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.rightSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnRightSideToward(): void {
-        this.turnService.edgeSwapRightToward(
-            this.state.upSide,
-            this.state.frontSide,
-            this.state.backSide,
-            this.state.downSide,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes,
-        )
-
-        this.turnService.sideSwapLeft(
-            this.state.rightSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnUpSideLeft(): void {
-        this.turnService.edgeSwapUpSideLeft(
-            this.state.frontSide,
-            this.state.leftSide,
-            this.state.rightSide,
-            this.state.backSide,
-            this.sideUpRowIndexes,
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.upSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnUpSideRight(): void {
-        this.turnService.edgeSwapUpSideRight(
-            this.state.frontSide,
-            this.state.leftSide,
-            this.state.rightSide,
-            this.state.backSide,
-            this.sideUpRowIndexes,
-        )
-
-        this.turnService.sideSwapLeft(
-            this.state.upSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnBottomSideLeft(): void {
-        this.turnService.edgeBottomSideLeft(
-            this.state.frontSide,
-            this.state.leftSide,
-            this.state.rightSide,
-            this.state.backSide,
-            this.sideDownRowIndexes,
-        )
-
-        this.turnService.sideSwapLeft(
-            this.state.downSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnBottomSideRight(): void {
-        this.turnService.edgeBottomSideRight(
-            this.state.frontSide,
-            this.state.leftSide,
-            this.state.rightSide,
-            this.state.backSide,
-            this.sideDownRowIndexes,
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.downSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnBackSideLeft(): void {
-        this.turnService.edgeSwapLeft(
-            this.state.upSide,
-            this.sideUpRowIndexes,
-            this.state.leftSide,
-            this.sideLeftRowIndexes,
-            this.state.rightSide,
-            this.sideRightRowIndexes,
-            this.state.downSide,
-            this.sideDownRowIndexes
-        )
-
-        this.turnService.sideSwapRight(
-            this.state.backSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
-    }
-
-    public turnBackSideRight(): void {
-        this.turnService.edgeSwapRight(
-            this.state.upSide,
-            this.sideUpRowIndexes,
-            this.state.leftSide,
-            this.sideLeftRowIndexes,
-            this.state.rightSide,
-            this.sideRightRowIndexes,
-            this.state.downSide,
-            this.sideDownRowIndexes
-        )
-
-        this.turnService.sideSwapLeft(
-            this.state.backSide,
-            this.sideUpRowIndexes,
-            this.sideDownRowIndexes,
-            this.sideLeftRowIndexes,
-            this.sideRightRowIndexes
-        )
+        console.log()
     }
 }
 
